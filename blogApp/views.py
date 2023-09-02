@@ -9,14 +9,9 @@ from django.shortcuts import get_object_or_404
 class GetCreateBlog(viewsets.ModelViewSet):
     serializer_class = BlogSerializers
     queryset = Blog.objects.all()
+    
 
-    # def list(self, request):
-    #     serializer = self.serializer(instance=self.queryset, many=True )
-    #     return response(data=serializer.data)
-
-
-    # def retrieve(self, request, pk):
-    #     blog = get_object_or_404(self.queryset, pk=pk)
-    #     serializer = self.serializer(blog)
-    #     return response(serializer.data)
-
+    def perform_create(self, serializer):
+        # Automatically set the user field to the currently logged-in user
+        serializer.save(user=self.request.user)
+  
